@@ -4,5 +4,5 @@ services:
   build: ./
   privileged: true
   network_mode: host
-  volumes: [ ./urls.txt:/urls.txt, .config.yaml:/config.yaml,  .mount:/mount, .cache:/cache ]
+  volumes: [ ./2fa.lua:/2fa.lua, ./urls.txt:/urls.txt, .config.yaml:/config.yaml,  .mount:/mount, .cache:/cache ]
   environment: [ USERNAME, PASSWORD ]
