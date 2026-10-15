@@ -1,0 +1,8 @@
+name: apple-music-compose
+services:
+ app:
+  build: ./
+  privileged: true
+  network_mode: host
+  volumes: [ ./urls.txt:/urls.txt, .config.yaml:/config.yaml,  .mount:/mount, .cache:/cache ]
+  environment: [ USERNAME, PASSWORD ]

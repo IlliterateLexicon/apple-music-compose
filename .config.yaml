@@ -1,0 +1,78 @@
+general:
+  lite-server: "http://127.0.0.1:12340"
+  media-user-token: ""
+  language: "en-US"
+  max-memory-limit: 256
+  proxy: ""
+  storefront: "us"
+  authorization-token: "" # bearer token for apple music api (leave blank to auto-fetch)
+  exit-on-error: true     # Set true to exit on download errors instead of prompting interactively
+
+media:
+  get-m3u8-mode: "all"                  # M3U8 retrieval mode: "hires" (detect high-res) or "all" (all streams)
+  alac-max: 192000                        # Maximum sample rate limit for ALAC (192000 | 96000 | 48000 | 44100)
+  atmos-max: 2768                         # Maximum bitrate limit for Dolby Atmos (2768 | 2448)
+  aac-type: "aac"                      # AAC stream profile: "aac-lc", "aac", "aac-binaural", or "aac-downmix"
+  alac-fix: true                          # Automatically patch malformed ALAC packets
+
+  mv: # music video
+    audio-type: "aac"
+    max: 0 # set max res to 0 to hopefully disable ?
+
+paths:
+  alac: "/mount"                     # Save folder for ALAC (Lossless / Hi-Res) downloads
+  atmos: "/mount"                       # Save folder for Dolby Atmos (Spatial Audio) downloads
+  aac: "/mount"                           # Save folder for AAC downloads
+  mv: "/mount"                           # Save folder for AAC downloads
+
+  # Variables: {AlbumId}, {AlbumName}, {ArtistName}, {ReleaseDate}, {ReleaseYear}, {UPC}, {Copyright}, {Quality}, {Codec}, {Tag}, {RecordLabel}
+  album-folder: "{AlbumName}"
+
+  # Variables: {PlaylistId}, {PlaylistName}, {ArtistName}, {Quality}, {Codec}, {Tag}
+  playlist-folder: "{PlaylistName}"
+
+  # Variables: {ArtistId}, {ArtistName}, {UrlArtistName}. Set to "" to disable artist sub-folder.
+  artist-folder: "{UrlArtistName}"
+
+  # Variables: {SongId}, {SongNumer}, {ArtistName}, {SongName}, {DiscNumber}, {TrackNumber}, {Quality}, {Codec}, {Tag}
+  song-file: "{SongNumer} {SongName}"
+
+  limit-max: 200                        # Maximum character limit for folder and file names
+  explicit: ""                       # Tag suffix for explicit tracks (set to "" to disable)
+  clean: ""                          # Tag suffix for clean tracks (set to "" to disable)
+  apple-master: ""                   # Tag suffix for Apple Digital Master tracks (set to "" to disable)
+
+metadata:
+  lyrics:
+    save-file: false
+    embed: true
+    type: "lyrics"         # "lyrics" (standard line-by-line) or "syllable-lyrics" (word-by-word)
+    format: "ttml"         # "lrc" or "ttml"
+    extra: "pronunciation" # "translation" or "pronunciation" (when available)
+
+  artwork:
+    embed: true
+    size: "3000x3000"
+    format: "jpg"
+    save-artist: true     # save artist banner/avatar cover image to artist folder
+    save-animated: true   # save motion/animated artwork as video
+    emby-animated: true   # save animated artwork formatted for emby/jellyfin
+    dl-for-playlist: true # sownload separate album cover image for playlists
+
+  tags:
+    sort-order: true
+    itunes-id: true
+    use-songinfo-for-playlist: false # for playlists, use original song info for album name, track and disc number
+
+convert:
+  after-download: true 
+  format: "opus"
+  keep-original: false
+  skip-if-source-matches: true
+  ffmpeg-path: "ffmpeg"
+  extra-args: ""
+  with-metadata: true
+  warn-lossy-to-lossless: true            # Print a warning when converting a detected lossy source to lossless
+  skip-lossy-to-lossless: false            # Skip converting detected lossy sources to lossless formats (e.g. flac/wav)
+  check-bad-alac: true                   # Check and report if downloaded ALAC audio stream is damaged
+  delete-bad-alac: true                  # Automatically delete damaged ALAC files
