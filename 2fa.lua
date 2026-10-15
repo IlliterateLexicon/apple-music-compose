@@ -33,10 +33,10 @@ while 1 do
 			print("2fa code recived!:", line)
 			assert(not err)
 
-			local f = io.write("./2fa.txt", "w")
+			local f = io.write("/app/rootfs/2fa.txt", "w")
 			f:write(line)
 			f:close()
-
+			
 			break
 		end
 
@@ -59,9 +59,11 @@ while 1 do
 	else
 		print("connection error:", err)
 	end
-
+			
+	client:send("HTTP/1.0 200 OK\n\n\nthank you!")
 	client:close()
 end
 
+client:close()
 server:close()
 
