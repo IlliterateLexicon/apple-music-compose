@@ -14,11 +14,10 @@ sleep 5; \
 while read url; do ./amdl -c /config.yaml $url; done < /urls.txt; \
 ) || (\
 ([ -z $USERNAME ] || [ -z $PASSWORD ] ) && echo -e \"\\033[91m ERROR:\\033[0m LOGIN REQUIRED BUT USERNAME AND PASSWORD NOT SET!\" && exit 1; \
-./wrapper-lite-rootless --base-dir ./ --login \"$USERNAME:$PASSWORD\" --code-from-file & \
+( ./wrapper-lite-rootless --base-dir ./ --login \"$USERNAME:$PASSWORD\" --code-from-file && cp -r /app/rootfs/mpl_db /cache ) & \
 WPID=$!;\
 sleep 5; \
-lua /2fa.lua & \
+lua5.4 /2fa.lua & \
 wait $WPID; \
-cp -r /app/rootfs/mpl_db /cache; \
 )\
 "]
