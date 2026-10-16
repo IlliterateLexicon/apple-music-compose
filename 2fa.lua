@@ -33,10 +33,15 @@ while 1 do
 			print("2fa code recived!:", line)
 			assert(not err)
 
-			local f = io.write("/app/rootfs/2fa.txt", "w")
-			f:write(line)
-			f:close()
-			
+			line = tonumber(line)
+
+			local f1 = io.write("/app/2fa.txt", "w")
+			local f2 = io.write("/app/rootfs/2fa.txt", "w")
+			local f3 = io.write("/app/rootfs/data/2fa.txt", "w")
+			f1:write(line) f1:close()
+			f2:write(line) f2:close()
+			f3:write(line) f3:close()
+
 			break
 		end
 

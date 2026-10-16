@@ -10,7 +10,7 @@ entrypoint [ "sh", "-c", "\
 [ -d /cache/mpl_db ] && (\
 ( cp -r /cache/* /app/rootfs && ./wrapper-lite-rootless --base-dir /app ) & \
 WPID=$!;\
-until ( [ $(curl -f http://localhost:12340/status) ] || [ -f /proc/$WID ] ); do sleep 1 done
+until ( [ $(curl -f http://localhost:12340/status > /dev/null) ] || [ -f /proc/$WID ] ); do sleep 1; done\
 while read url; do ./amdl -c /config.yaml $url; done < /urls.txt; \
 ) || (\
 ([ -z $USERNAME ] || [ -z $PASSWORD ] ) && echo -e \"\\033[91m ERROR:\\033[0m LOGIN REQUIRED BUT USERNAME AND PASSWORD NOT SET!\" && exit 1; \
