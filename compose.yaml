@@ -1,8 +1,3 @@
-name: apple-music-compose
+name: "apple-music-compose"
 services:
- app:
-  build: ./
-  privileged: true
-  network_mode: host
-  volumes: [ ./2fa.lua:/2fa.lua, ./urls.txt:/urls.txt, .config.yaml:/config.yaml,  .mount:/mount, .cache:/cache ]
-  environment: [ USERNAME, PASSWORD ]
+  chromium: { build: { context: claw, additional_contexts: { copy: chromium }} }

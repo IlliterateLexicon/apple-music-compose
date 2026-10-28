@@ -1,0 +1,26 @@
+from alpine as build
+
+workdir /copy
+run busybox echo -en "#! /bin/sh \n bun run /init.js" > /copy/init.sh
+
+workdir /copy/root
+run apk add --no-cache so:libstdc++.so.6
+add https://github.com/oven-sh/bun/releases/latest/download/bun-linux-x64-musl.zip /tmp/bun.zip
+
+workdir /copy/bin
+workdir /bin
+run busybox unzip -j /tmp/bun.zip
+run bun add puppeteer-core
+run cp bun /copy/bin
+run cp -a bun.lock package.json node_modules /copy/root/
+
+workdir /copy/usr/lib
+workdir /usr/lib
+run cp \
+	libstdc++.so.6 \
+	libgcc_s.so.1 \
+/copy/usr/lib 
+
+
+from claw as bin
+workdir /root

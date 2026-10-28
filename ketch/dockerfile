@@ -1,0 +1,38 @@
+# build stage (pre claw)
+from alpine as build 
+run apk add --no-cache go
+
+workdir /copy/bin
+workdir /root/go/bin
+
+# copy ketch
+run go install github.com/1broseidon/ketch@latest
+run cp ketch /copy/bin
+
+# copy ssl cert for ketch
+workdir /copy/etc/ssl
+run cp -r /etc/ssl/certs ./
+
+from scratch as copy 
+copy --from=build /copy/bin/ /bin
+copy --from=build /copy/lib/ /lib
+copy --from=build /copy
+run 
+
+# link ketch deps from busybox
+run ln -sf ./sh ./rm 
+run ln -sf ./sh ./tail 
+run ln -sf ./sh ./mkdir 
+run ln -sf ./sh ./chmod
+run ln -sf ./sh ./basename 
+run ln -sf ./sh ./realpath 
+
+# link deps for init script
+run ln -sf ./sh ./tr
+run ln -sf ./sh ./mv
+run ln -sf ./sh ./ln
+run ln -sf ./sh ./ls
+run ln -sf ./sh ./cut
+run ln -sf ./sh ./rev
+
+cmd [ "sh", "-c", "busybox ls" ]

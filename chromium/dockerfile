@@ -1,0 +1,8 @@
+from alpine as build
+run apk add --no-cache chromium
+
+workdir /copy
+run echo -en "echo Hello World\n" > ./init.sh
+
+from scratch as copy
+copy --from=build /copy /

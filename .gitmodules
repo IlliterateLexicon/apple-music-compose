@@ -1,0 +1,3 @@
+[submodule "claw"]
+	path = claw
+	url = http://github.com/illiteratelexicon/claw-docker.git
